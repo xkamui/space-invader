@@ -2,6 +2,7 @@ import { Entity } from './modules/classes/classEntity.js'
 import { Player } from './modules/classes/classPlayer.js'
 import { Projectile } from './modules/classes/classProjectile.js'
 import { Enemy } from './modules/classes/classEnemy.js'
+import { Particle } from './modules/classes/classParticle.js'
 
 // Create canvas, change its size and get context from it
 const canvas = document.querySelector('#game-container')
@@ -14,7 +15,7 @@ const player = new Player(context, canvas.width / 2, canvas.height / 2, 10, '#CC
 
 // Create a projectile
 const projectile = new Projectile(context, 50, 50, 30, '#336699', {x: 3, y:3})
-projectile.draw()
+      projectile.draw()
 
 // Create multiple projectiles when the user clicks the window
 const projectiles = []
@@ -96,6 +97,19 @@ function animate(){
         projectiles.forEach((projectile, projectileIndex) => {
             const distance = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y)
             if (distance - projectile.radius - enemies.radius <= 0) {
+
+                for (let i = 0; i < 8; i++) {
+                    particles.push(new Particle(context, projectile.x, projectile.y, Math.random() * (3 - 1) + 1, enemy.color, { x: (Math.random() - .5) * 3, y: (Math.random() - .5) * 3}))
+                }
+
+                particles.forEach((particle, index) => {
+                    if (particle.alpha <= 0) {
+                        particles.splice(index, 1)
+                    } else {
+                        particle.update()
+                    }
+                })
+
                 if (enemy.radius -10 > 5) {
                     console.log('Enemy hit! 💢')
                     gsap.to(enemy, { radius: enemy.radius - 10, })
