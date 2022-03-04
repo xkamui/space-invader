@@ -33,6 +33,11 @@ class Projectile extends Player {
         super(x, y, radius, color)
         this.velocity = velocity
     }
+    update(){
+        this.draw()
+        this.x = this.x + this.velocity.x
+        this.y = this.y + this.velocity.y
+    }
 }
 
 
@@ -50,14 +55,32 @@ projectile.draw()
 // Create multiple projectiles when the user clicks the window
 const projectiles = []
 window.addEventListener('click', (e) => {
-    const projectile = new Projectile(e.clientX, e.clientY, 5, '#F5F5F5', null)
+
+    // Get the angle from the click
+    const angle = Math.atan2(e.clientY - player.y, e.clientX - player.x)
+
+    // Get velocity from the angle
+    const velocity = {x: Math.cos(angle) * 5, y: Math.sin(angle) * 5}
+
+    const projectile = new Projectile(e.clientX, e.clientY, 5, '#F5F5F5', velocity)
     projectile.draw()
     projectiles.push(projectile)
 })
 
-// Fonction to add multiple attributes at once
+// Function to add multiple attributes at once
 function setAttributes(obj, attributes){
     for (key in attributes) {
         obj.setAttribute(key, attributes[key])
     }
 }
+
+// Function to animate elements on the canvas
+function animate(){
+    requestAnimationFrame(animate)
+
+    context.fillStyle = 'rgba(29, 31, 33, 1)'
+    context.fillRect(0, 0, canvas.width, canvas.height)
+    player.draw()
+    projectiles.map(projectile => projectile.update())
+}
+animate()
