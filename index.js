@@ -27,6 +27,13 @@ class Player extends Entity {
     }
 }
 
+// Define class projectile that extends from the Player
+class Projectile extends Player {
+    constructor(x, y, radius, color, velocity){
+        super(x, y, radius, color)
+        this.velocity = velocity
+    }
+}
 
 
 // Get context of the canvas element
@@ -36,7 +43,9 @@ const context = canvas.getContext('2d')
 const player = new Player(canvas.width / 2, canvas.height / 2, 10, '#CC0000')
       player.draw()
 
-
+// Create a projectile
+const projectile = new Projectile(50, 50, 30, '#336699', {x: 3, y:3})
+projectile.draw()
 
 // Fonction to add multiple attributes at once
 function setAttributes(obj, attributes){
