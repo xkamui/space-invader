@@ -96,16 +96,24 @@ function animate(){
         projectiles.forEach((projectile, projectileIndex) => {
             const distance = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y)
             if (distance - projectile.radius - enemies.radius <= 0) {
-                console.log('touched')
-                setTimeout(() => {
-                    enemies.splice(enemyIndex, 1)
-                    projectiles.splice(projectileIndex, 1)
-                }, 0)
+                if (enemy.radius -10 > 5) {
+                    console.log('Enemy hit! 💢')
+                    enemy.radius -= 10
+                    setTimeout(() => {
+                        projectiles.splice(projectileIndex, 1)
+                    }, 0)
+                } else {
+                    console.log('Enemy destroyed!! 💥')
+                    setTimeout(() => {
+                        enemies.splice(enemyIndex, 1)
+                        projectiles.splice(projectileIndex, 1)
+                    }, 0)
+                }
             }
 
             const distPlayerEnemy = Math.hypot(player.x - enemy.x, player.y - enemy.y)
             if (distPlayerEnemy - enemy.radius - player.radius <= 0) {
-                console.log('Game over')
+                console.log('Game over… 😥')
                 cancelAnimationFrame(animationId)
             }
 
