@@ -47,6 +47,14 @@ const player = new Player(canvas.width / 2, canvas.height / 2, 10, '#CC0000')
 const projectile = new Projectile(50, 50, 30, '#336699', {x: 3, y:3})
 projectile.draw()
 
+// Create multiple projectiles when the user clicks the window
+const projectiles = []
+window.addEventListener('click', (e) => {
+    const projectile = new Projectile(e.clientX, e.clientY, 5, '#F5F5F5', null)
+    projectile.draw()
+    projectiles.push(projectile)
+})
+
 // Fonction to add multiple attributes at once
 function setAttributes(obj, attributes){
     for (key in attributes) {
